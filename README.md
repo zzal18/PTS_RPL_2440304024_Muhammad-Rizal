@@ -6,7 +6,7 @@
 - **Digit kedua dari belakang:** 2 -> Constraint: Terdapat proses persetujuan dua tingkat
 - **P = 100 + 024 = 124** pengguna aktif (asumsi concurrent active users)
 - **Branch fitur:** feature-4024
-- **Link Video YouTube (Unlisted):** https://youtu.be/bta9Du49oEs
+- **Link Video YouTube :** https://youtu.be/bta9Du49oEs
 
 ## Isi repository
 - `requirements.md` : functional dan nonfunctional requirement
