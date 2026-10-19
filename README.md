@@ -1,6 +1,6 @@
 # PTS Rekayasa Perangkat Lunak - Sistem Reservasi Ruang/Laboratorium
 
-- **Nama:**Muhammad Rizal
+- **Nama:** Muhammad Rizal
 - **NIM:** 2440304024
 - **Digit terakhir NIM:** 4 -> Kasus: Sistem Reservasi Ruang/Laboratorium
 - **Digit kedua dari belakang:** 2 -> Constraint: Terdapat proses persetujuan dua tingkat
