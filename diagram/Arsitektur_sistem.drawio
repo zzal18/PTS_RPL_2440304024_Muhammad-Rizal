@@ -1,0 +1,76 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="04_arsitektur_sistem" id="04_arsitektur_sistem">
+    <mxGraphModel dx="1321" dy="721" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="720" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="n2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=14;fillColor=#d5e8d4;strokeColor=#82b366;" value="Klien: Browser web responsif&lt;br&gt;(Pemohon, Koordinator Lab, Kaprodi, Admin)" vertex="1">
+          <mxGeometry height="70" width="700" x="100" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="n3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=14;fillColor=#f8cecc;strokeColor=#b85450;" value="Reverse proxy (Nginx): HTTPS/TLS, kompresi, rate limiting" vertex="1">
+          <mxGeometry height="50" width="700" x="100" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="n4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=14;fillColor=#f5f5f5;verticalAlign=top;fontStyle=1;strokeColor=#666666;" value="Application Server (stateless, dapat direplikasi 2x)" vertex="1">
+          <mxGeometry height="330" width="700" x="100" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="n5" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=14;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="PRESENTATION LAYER&lt;br&gt;Controller &amp; View: ReservasiController, ApprovalController,&lt;br&gt;RuangController, LaporanController" vertex="1">
+          <mxGeometry height="80" width="640" x="130" y="260" as="geometry" />
+        </mxCell>
+        <mxCell id="n6" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=14;fillColor=#fff2cc;strokeColor=#d6b656;" value="BUSINESS LOGIC LAYER&lt;br&gt;ReservasiService, ApprovalService (Strategy Tk.1 &amp; Tk.2),&lt;br&gt;ConflictChecker, AuthService (RBAC), ReportService" vertex="1">
+          <mxGeometry height="80" width="640" x="130" y="370" as="geometry" />
+        </mxCell>
+        <mxCell id="n7" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=14;fillColor=#e1d5e7;strokeColor=#9673a6;" value="DATA ACCESS LAYER&lt;br&gt;Repository: ReservasiRepo, RuangRepo, PenggunaRepo, PersetujuanRepo (ORM + pool)" vertex="1">
+          <mxGeometry height="60" width="640" x="130" y="470" as="geometry" />
+        </mxCell>
+        <mxCell id="n8" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=14;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="Database relasional (PostgreSQL)&lt;br&gt;Pengguna, Ruang, Reservasi, Persetujuan, Jadwal&lt;br&gt;Index (ruang, tanggal, jam) + constraint anti-bentrok" vertex="1">
+          <mxGeometry height="90" width="330" x="100" y="610" as="geometry" />
+        </mxCell>
+        <mxCell id="n9" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=14;fillColor=#ffe6cc;strokeColor=#d79b00;" value="Cache in-memory (mis. Redis)&lt;br&gt;Daftar ketersediaan ruang, TTL 30 detik,&lt;br&gt;invalidasi saat reservasi berubah" vertex="1">
+          <mxGeometry height="90" width="330" x="470" y="610" as="geometry" />
+        </mxCell>
+        <mxCell id="n10" parent="1" style="text;html=1;fontSize=14;align=center;verticalAlign=middle;fontSize=12;" value="HTTPS" vertex="1">
+          <mxGeometry height="18" width="60" x="475" y="103" as="geometry" />
+        </mxCell>
+        <mxCell id="n11" parent="1" style="text;html=1;fontSize=14;align=center;verticalAlign=middle;fontSize=12;" value="request / response" vertex="1">
+          <mxGeometry height="18" width="120" x="480" y="193" as="geometry" />
+        </mxCell>
+        <mxCell id="n12" parent="1" style="text;html=1;fontSize=14;align=center;verticalAlign=middle;fontSize=12;" value="DTO / panggilan service" vertex="1">
+          <mxGeometry height="18" width="150" x="470" y="346" as="geometry" />
+        </mxCell>
+        <mxCell id="n13" parent="1" style="text;html=1;fontSize=14;align=center;verticalAlign=middle;fontSize=12;" value="entitas domain" vertex="1">
+          <mxGeometry height="18" width="100" x="475" y="451" as="geometry" />
+        </mxCell>
+        <mxCell id="n14" parent="1" style="text;html=1;fontSize=14;align=center;verticalAlign=middle;fontSize=12;" value="SQL via connection pool (maks. 25)" vertex="1">
+          <mxGeometry height="18" width="220" x="285" y="571" as="geometry" />
+        </mxCell>
+        <mxCell id="n15" parent="1" style="text;html=1;fontSize=14;align=center;verticalAlign=middle;fontSize=12;" value="baca/tulis cache" vertex="1">
+          <mxGeometry height="18" width="110" x="660" y="585" as="geometry" />
+        </mxCell>
+        <mxCell id="e0" edge="1" parent="1" source="n2" style="edgeStyle=none;html=1;rounded=0;endArrow=block;endFill=1;dashed=0;fontSize=14;exitX=0.500;exitY=1.000;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.500;entryY=0.000;entryDx=0;entryDy=0;entryPerimeter=0;" target="n3" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="n3" style="edgeStyle=none;html=1;rounded=0;endArrow=block;endFill=1;dashed=0;fontSize=14;exitX=0.500;exitY=1.000;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.500;entryY=0.000;entryDx=0;entryDy=0;entryPerimeter=0;" target="n4" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="n5" style="edgeStyle=none;html=1;rounded=0;endArrow=block;endFill=1;dashed=0;fontSize=14;exitX=0.500;exitY=1.000;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.500;entryY=0.000;entryDx=0;entryDy=0;entryPerimeter=0;" target="n6" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="n6" style="edgeStyle=none;html=1;rounded=0;endArrow=block;endFill=1;dashed=0;fontSize=14;exitX=0.500;exitY=1.000;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.500;entryY=0.000;entryDx=0;entryDy=0;entryPerimeter=0;" target="n7" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="n7" style="edgeStyle=none;html=1;rounded=0;endArrow=block;endFill=1;dashed=0;fontSize=14;exitX=0.211;exitY=1.000;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.500;entryY=0.000;entryDx=0;entryDy=0;entryPerimeter=0;" target="n8" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="n6" style="edgeStyle=none;html=1;rounded=0;endArrow=block;endFill=1;dashed=0;fontSize=14;exitX=1.000;exitY=0.500;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.500;entryY=0.000;entryDx=0;entryDy=0;entryPerimeter=0;" target="n9" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="785" y="410" />
+              <mxPoint x="785" y="575" />
+              <mxPoint x="635" y="575" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
