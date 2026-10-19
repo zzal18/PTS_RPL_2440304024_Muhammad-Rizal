@@ -50,3 +50,15 @@
 - **Prioritas:** Medium
 - **Alasan:** Dibutuhkan untuk evaluasi pemanfaatan ruang dan laporan ke pimpinan.
 
+## Nonfunctional Requirements (P = 124, X = 3 detik)
+
+| ID | Kategori | Pernyataan terukur | Alasan |
+|---|---|---|---|
+| NFR-01 | Performance | Pada beban 124 pengguna aktif bersamaan, fungsi utama (lihat ketersediaan, ajukan reservasi, verifikasi, persetujuan) memiliki waktu respons maksimal 3 detik pada persentil ke-95 dalam kondisi operasional normal. | X = 3 detik dipilih karena pengguna web yang menunggu lebih dari 3 detik cenderung mengulang aksi, sehingga berisiko menimbulkan pengajuan ganda. |
+| NFR-02 | Capacity / Scalability | Sistem mampu melayani minimal 124 pengguna aktif bersamaan. Dengan asumsi satu permintaan per pengguna setiap 10 detik, beban puncak sekitar 12,4 permintaan/detik; sistem dirancang untuk minimal 25 permintaan/detik (cadangan 2x). | Cadangan 2x mengantisipasi lonjakan pada awal semester dan masa praktikum. |
+| NFR-03 | Security | Akses diatur berdasarkan 4 peran (Pemohon, Koordinator Lab, Kaprodi, Admin). Kata sandi disimpan sebagai hash (bcrypt), seluruh lalu lintas memakai HTTPS (TLS 1.2 atau lebih baru), dan sesi kedaluwarsa setelah 30 menit tidak aktif. Endpoint verifikasi Tk.1 dan persetujuan Tk.2 hanya dapat diakses peran terkait (100% permintaan dari peran lain ditolak). | Keputusan persetujuan harus tidak dapat dipalsukan oleh pengguna biasa. |
+| NFR-04 | Usability | Pemohon baru dapat mengajukan reservasi dalam maksimal 5 langkah dan 2 menit tanpa pelatihan, dan antarmuka dapat digunakan pada layar ponsel (lebar minimal 360 px). | Mayoritas pemohon adalah mahasiswa yang mengakses melalui ponsel. |
+| NFR-05 | Reliability / Availability | Ketersediaan sistem minimal 99% pada jam layanan 07.00-21.00 WITA (downtime maksimal sekitar 4 jam per bulan) dan basis data dibackup harian. | Jam layanan 14 jam x 30 hari = 420 jam; 1% setara kurang lebih 4,2 jam. |
+| NFR-06 | Constraint NIM: persetujuan dua tingkat | Sebanyak 100% reservasi berstatus Disetujui harus memiliki tepat dua catatan persetujuan berurutan (Tk.1 lalu Tk.2) yang dibuat oleh pengguna dengan peran berbeda. Sistem menolak setiap upaya melompati tingkat atau persetujuan Tk.2 oleh peran selain Kaprodi. | Menjamin aturan bisnis inti terpenuhi tanpa pengecualian. |
+| NFR-07 | Data integrity | Pada pengujian 124 permintaan yang menarget slot yang sama secara bersamaan, hanya satu reservasi yang berhasil disetujui (0 kasus double booking). | Bentrok jadwal adalah akar masalah utama; harus dijaga di level basis data, bukan hanya di aplikasi. |
+
