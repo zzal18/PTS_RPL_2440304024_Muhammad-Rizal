@@ -62,3 +62,21 @@
 | NFR-06 | Constraint NIM: persetujuan dua tingkat | Sebanyak 100% reservasi berstatus Disetujui harus memiliki tepat dua catatan persetujuan berurutan (Tk.1 lalu Tk.2) yang dibuat oleh pengguna dengan peran berbeda. Sistem menolak setiap upaya melompati tingkat atau persetujuan Tk.2 oleh peran selain Kaprodi. | Menjamin aturan bisnis inti terpenuhi tanpa pengecualian. |
 | NFR-07 | Data integrity | Pada pengujian 124 permintaan yang menarget slot yang sama secara bersamaan, hanya satu reservasi yang berhasil disetujui (0 kasus double booking). | Bentrok jadwal adalah akar masalah utama; harus dijaga di level basis data, bukan hanya di aplikasi. |
 
+
+## Aturan Persetujuan Dua Tingkat (constraint NIM)
+
+Reservasi hanya dapat berstatus **Disetujui** setelah melewati verifikasi Tk.1 (Koordinator Lab) lalu persetujuan Tk.2 (Kaprodi). Hanya transisi berikut yang diizinkan:
+
+| Status awal | Aksi | Aktor | Status akhir |
+|---|---|---|---|
+| Menunggu Verifikasi | Verifikasi lolos | Koordinator Lab | Menunggu Persetujuan |
+| Menunggu Verifikasi | Tolak Tk.1 (catatan) | Koordinator Lab | Ditolak |
+| Menunggu Persetujuan | Setujui Tk.2 (slot dikunci) | Kaprodi | Disetujui |
+| Menunggu Persetujuan | Tolak Tk.2 (catatan wajib) | Kaprodi | Ditolak |
+| Menunggu Verifikasi / Persetujuan | Batalkan | Pemohon | Dibatalkan |
+
+Aturan tambahan:
+- Persetujuan Tk.2 hanya dapat dibuat bila persetujuan Tk.1 sudah ada dan lolos.
+- Peran Koordinator Lab hanya boleh membuat Tk.1; peran Kaprodi hanya boleh membuat Tk.2.
+- Kombinasi (reservasi, tingkat) bersifat unik pada basis data.
+- Penolakan wajib disertai catatan.
